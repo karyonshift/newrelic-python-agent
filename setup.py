@@ -129,7 +129,7 @@ classifiers = [
 kwargs = dict(
     name="newrelic",
     use_scm_version={
-        "version_scheme": '8.8.0',
+        "version_scheme": newrelic_agent_next_version,
         "local_scheme": "no-local-version",
         "git_describe_command": "git describe --dirty --tags --long --match *.*.*",
         "write_to": "newrelic/version.txt",
