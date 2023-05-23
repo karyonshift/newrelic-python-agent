@@ -18,6 +18,9 @@ from newrelic.api.transaction import current_transaction
 from newrelic.common.object_names import callable_name
 from newrelic.common.object_wrapper import wrap_object, ObjectProxy
 from newrelic.core.config import global_settings
+import logging
+
+_logger = logging.getLogger(__name__)
 
 DEFAULT = object()
 
@@ -88,7 +91,13 @@ class ConnectionWrapper(ObjectProxy):
     def rollback(self):
         with DatabaseTrace('ROLLBACK', self._nr_dbapi2_module,
                 self._nr_connect_params, source=self.__wrapped__.rollback):
-            return self.__wrapped__.rollback()
+            rollback = None
+            try:
+                rollback = self.__wrapped__.rollback()
+            except Exception as ex:
+                _logger.exception(ex)
+                
+            return rollback
 
 class ConnectionFactory(ObjectProxy):
 
