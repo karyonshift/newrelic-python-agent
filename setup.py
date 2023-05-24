@@ -53,6 +53,7 @@ def newrelic_agent_guess_next_version(tag_version):
 
 
 def newrelic_agent_next_version(version):
+    return "8.8.0"
     if version.exact:
         return version.format_with("{tag}")
     else:
